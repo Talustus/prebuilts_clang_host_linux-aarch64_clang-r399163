@@ -1,0 +1,174 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="Start" href="index.html">
+<link rel="previous" href="Llvm_bitwriter.html">
+<link rel="next" href="Llvm_ipo.html">
+<link rel="Up" href="index.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of exceptions" rel=Appendix href="index_exceptions.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Llvm" rel="Chapter" href="Llvm.html">
+<link title="Llvm_AArch64" rel="Chapter" href="Llvm_AArch64.html">
+<link title="Llvm_ARM" rel="Chapter" href="Llvm_ARM.html">
+<link title="Llvm_BPF" rel="Chapter" href="Llvm_BPF.html">
+<link title="Llvm_X86" rel="Chapter" href="Llvm_X86.html">
+<link title="Llvm_all_backends" rel="Chapter" href="Llvm_all_backends.html">
+<link title="Llvm_analysis" rel="Chapter" href="Llvm_analysis.html">
+<link title="Llvm_bitreader" rel="Chapter" href="Llvm_bitreader.html">
+<link title="Llvm_bitwriter" rel="Chapter" href="Llvm_bitwriter.html">
+<link title="Llvm_executionengine" rel="Chapter" href="Llvm_executionengine.html">
+<link title="Llvm_ipo" rel="Chapter" href="Llvm_ipo.html">
+<link title="Llvm_irreader" rel="Chapter" href="Llvm_irreader.html">
+<link title="Llvm_linker" rel="Chapter" href="Llvm_linker.html">
+<link title="Llvm_passmgr_builder" rel="Chapter" href="Llvm_passmgr_builder.html">
+<link title="Llvm_scalar_opts" rel="Chapter" href="Llvm_scalar_opts.html">
+<link title="Llvm_target" rel="Chapter" href="Llvm_target.html">
+<link title="Llvm_transform_utils" rel="Chapter" href="Llvm_transform_utils.html">
+<link title="Llvm_vectorize" rel="Chapter" href="Llvm_vectorize.html"><title>Llvm_executionengine</title>
+</head>
+<body>
+<div class="navbar"><a class="pre" href="Llvm_bitwriter.html" title="Llvm_bitwriter">Previous</a>
+&nbsp;<a class="up" href="index.html" title="Index">Up</a>
+&nbsp;<a class="post" href="Llvm_ipo.html" title="Llvm_ipo">Next</a>
+</div>
+<h1>Module <a href="type_Llvm_executionengine.html">Llvm_executionengine</a></h1>
+
+<pre><span class="keyword">module</span> Llvm_executionengine: <code class="code"><span class="keyword">sig</span></code> <a href="Llvm_executionengine.html">..</a> <code class="code"><span class="keyword">end</span></code></pre><div class="info module top">
+JIT Interpreter.
+<p>
+
+    This interface provides an OCaml API for LLVM execution engine (JIT/
+    interpreter), the classes in the <code class="code"><span class="constructor">ExecutionEngine</span></code> library.<br>
+</div>
+<hr width="100%">
+
+<pre><span id="EXCEPTIONError"><span class="keyword">exception</span> Error</span> <span class="keyword">of</span> <code class="type">string</code></pre>
+
+<pre><span id="VALinitialize"><span class="keyword">val</span> initialize</span> : <code class="type">unit -> bool</code></pre><div class="info ">
+<code class="code">initialize&nbsp;()</code> initializes the backend corresponding to the host.
+    Returns <code class="code"><span class="keyword">true</span></code> if initialization is successful; <code class="code"><span class="keyword">false</span></code> indicates
+    that there is no such backend or it is unable to emit object code
+    via MCJIT.<br>
+</div>
+
+<pre><span id="TYPEllexecutionengine"><span class="keyword">type</span> <code class="type"></code>llexecutionengine</span> </pre>
+<div class="info ">
+An execution engine is either a JIT compiler or an interpreter, capable of
+    directly loading an LLVM module and executing its functions without first
+    invoking a static compiler and generating a native executable.<br>
+</div>
+
+
+<pre><code><span id="TYPEllcompileroptions"><span class="keyword">type</span> <code class="type"></code>llcompileroptions</span> = {</code></pre><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTllcompileroptions.opt_level">opt_level</span>&nbsp;: <code class="type">int</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTllcompileroptions.code_model">code_model</span>&nbsp;: <code class="type"><a href="Llvm_target.CodeModel.html#TYPEt">Llvm_target.CodeModel.t</a></code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTllcompileroptions.no_framepointer_elim">no_framepointer_elim</span>&nbsp;: <code class="type">bool</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTllcompileroptions.enable_fast_isel">enable_fast_isel</span>&nbsp;: <code class="type">bool</code>;</code></td>
+
+</tr></table>
+}
+
+<div class="info ">
+MCJIT compiler options. See <code class="code">llvm::<span class="constructor">TargetOptions</span></code>.<br>
+</div>
+
+
+<pre><span id="VALdefault_compiler_options"><span class="keyword">val</span> default_compiler_options</span> : <code class="type"><a href="Llvm_executionengine.html#TYPEllcompileroptions">llcompileroptions</a></code></pre><div class="info ">
+Default MCJIT compiler options:
+    <code class="code">{&nbsp;opt_level&nbsp;=&nbsp;0;&nbsp;code_model&nbsp;=&nbsp;<span class="constructor">CodeModel</span>.<span class="constructor">JIT_default</span>;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;no_framepointer_elim&nbsp;=&nbsp;<span class="keyword">false</span>;&nbsp;enable_fast_isel&nbsp;=&nbsp;<span class="keyword">false</span>&nbsp;}</code><br>
+</div>
+
+<pre><span id="VALcreate"><span class="keyword">val</span> create</span> : <code class="type">?options:<a href="Llvm_executionengine.html#TYPEllcompileroptions">llcompileroptions</a> -><br>       <a href="Llvm.html#TYPEllmodule">Llvm.llmodule</a> -> <a href="Llvm_executionengine.html#TYPEllexecutionengine">llexecutionengine</a></code></pre><div class="info ">
+<code class="code">create&nbsp;m&nbsp;optlevel</code> creates a new MCJIT just-in-time compiler, taking
+    ownership of the module <code class="code">m</code> if successful with the desired optimization
+    level <code class="code">optlevel</code>. Raises <code class="code"><span class="constructor">Error</span>&nbsp;msg</code> if an error occurrs. The execution
+    engine is not garbage collected and must be destroyed with <code class="code">dispose&nbsp;ee</code>.
+<p>
+
+    Run <a href="Llvm_executionengine.html#VALinitialize"><code class="code"><span class="constructor">Llvm_executionengine</span>.initialize</code></a> before using this function.
+<p>
+
+    See the function <code class="code">llvm::<span class="constructor">EngineBuilder</span>::create</code>.<br>
+</div>
+
+<pre><span id="VALdispose"><span class="keyword">val</span> dispose</span> : <code class="type"><a href="Llvm_executionengine.html#TYPEllexecutionengine">llexecutionengine</a> -> unit</code></pre><div class="info ">
+<code class="code">dispose&nbsp;ee</code> releases the memory used by the execution engine and must be
+    invoked to avoid memory leaks.<br>
+</div>
+
+<pre><span id="VALadd_module"><span class="keyword">val</span> add_module</span> : <code class="type"><a href="Llvm.html#TYPEllmodule">Llvm.llmodule</a> -> <a href="Llvm_executionengine.html#TYPEllexecutionengine">llexecutionengine</a> -> unit</code></pre><div class="info ">
+<code class="code">add_module&nbsp;m&nbsp;ee</code> adds the module <code class="code">m</code> to the execution engine <code class="code">ee</code>.<br>
+</div>
+
+<pre><span id="VALremove_module"><span class="keyword">val</span> remove_module</span> : <code class="type"><a href="Llvm.html#TYPEllmodule">Llvm.llmodule</a> -> <a href="Llvm_executionengine.html#TYPEllexecutionengine">llexecutionengine</a> -> unit</code></pre><div class="info ">
+<code class="code">remove_module&nbsp;m&nbsp;ee</code> removes the module <code class="code">m</code> from the execution engine
+    <code class="code">ee</code>. Raises <code class="code"><span class="constructor">Error</span>&nbsp;msg</code> if an error occurs.<br>
+</div>
+
+<pre><span id="VALrun_static_ctors"><span class="keyword">val</span> run_static_ctors</span> : <code class="type"><a href="Llvm_executionengine.html#TYPEllexecutionengine">llexecutionengine</a> -> unit</code></pre><div class="info ">
+<code class="code">run_static_ctors&nbsp;ee</code> executes the static constructors of each module in
+    the execution engine <code class="code">ee</code>.<br>
+</div>
+
+<pre><span id="VALrun_static_dtors"><span class="keyword">val</span> run_static_dtors</span> : <code class="type"><a href="Llvm_executionengine.html#TYPEllexecutionengine">llexecutionengine</a> -> unit</code></pre><div class="info ">
+<code class="code">run_static_dtors&nbsp;ee</code> executes the static destructors of each module in
+    the execution engine <code class="code">ee</code>.<br>
+</div>
+
+<pre><span id="VALdata_layout"><span class="keyword">val</span> data_layout</span> : <code class="type"><a href="Llvm_executionengine.html#TYPEllexecutionengine">llexecutionengine</a> -> <a href="Llvm_target.DataLayout.html#TYPEt">Llvm_target.DataLayout.t</a></code></pre><div class="info ">
+<code class="code">data_layout&nbsp;ee</code> is the data layout of the execution engine <code class="code">ee</code>.<br>
+</div>
+
+<pre><span id="VALadd_global_mapping"><span class="keyword">val</span> add_global_mapping</span> : <code class="type"><a href="Llvm.html#TYPEllvalue">Llvm.llvalue</a> -><br>       'a Ctypes.ptr -> <a href="Llvm_executionengine.html#TYPEllexecutionengine">llexecutionengine</a> -> unit</code></pre><div class="info ">
+<code class="code">add_global_mapping&nbsp;gv&nbsp;ptr&nbsp;ee</code> tells the execution engine <code class="code">ee</code> that
+    the global <code class="code">gv</code> is at the specified location <code class="code">ptr</code>, which must outlive
+    <code class="code">gv</code> and <code class="code">ee</code>.
+    All uses of <code class="code">gv</code> in the compiled code will refer to <code class="code">ptr</code>.<br>
+</div>
+
+<pre><span id="VALget_global_value_address"><span class="keyword">val</span> get_global_value_address</span> : <code class="type">string -> 'a Ctypes.typ -> <a href="Llvm_executionengine.html#TYPEllexecutionengine">llexecutionengine</a> -> 'a</code></pre><div class="info ">
+<code class="code">get_global_value_address&nbsp;id&nbsp;typ&nbsp;ee</code> returns a pointer to the
+    identifier <code class="code">id</code> as type <code class="code">typ</code>, which will be a pointer type for a
+    value, and which will be live as long as <code class="code">id</code> and <code class="code">ee</code>
+    are. Caution: this function finalizes, i.e. forces code
+    generation, all loaded modules.  Further modifications to the
+    modules will not have any effect.<br>
+</div>
+
+<pre><span id="VALget_function_address"><span class="keyword">val</span> get_function_address</span> : <code class="type">string -> 'a Ctypes.typ -> <a href="Llvm_executionengine.html#TYPEllexecutionengine">llexecutionengine</a> -> 'a</code></pre><div class="info ">
+<code class="code">get_function_address&nbsp;fn&nbsp;typ&nbsp;ee</code> returns a pointer to the function
+    <code class="code">fn</code> as type <code class="code">typ</code>, which will be a pointer type for a function
+    (e.g. <code class="code">(int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int)&nbsp;typ</code>), and which will be live as long as <code class="code">fn</code>
+    and <code class="code">ee</code> are. Caution: this function finalizes, i.e. forces code
+    generation, all loaded modules.  Further modifications to the
+    modules will not have any effect.<br>
+</div>
+</body></html>
